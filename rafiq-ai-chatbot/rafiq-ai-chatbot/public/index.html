@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RafiqAI - AI Software Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">RafiqAI</div>
+      <nav class="nav">
+
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <!-- Hero Section -->
+    <main class="hero-section">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="highlight">Rafiq-AI - Secrétaire Virtuel</span>
+          </h1>
+          <p class="hero-description">
+            Assistant intelligent pour la démarche NIRD (Numérique Inclusif, Responsable et Durable).
+            Votre guide pour le Village Numérique Résistant face aux Big Tech.
+          </p>
+        </div>
+        <div class="hero-graphic">
+          <div class="graphic-frame">
+            <div class="graphic-content">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+              <div class="ring ring-4"></div>
+              <div class="ring ring-5"></div>
+              <div class="ring ring-6"></div>
+              <div class="ring ring-7"></div>
+              <div class="ring ring-8"></div>
+              <div class="stars"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Knowledge Addition Zone -->
+    <section class="knowledge-section">
+      <div class="knowledge-header">
+        <span class="knowledge-icon">💬</span>
+        <h2 class="knowledge-title">Zone d'Ajout de Connaissances</h2>
+      </div>
+      <p class="knowledge-subtitle">Contribuez au contenu du chatbot en ajoutant vos informations</p>
+
+      <div class="knowledge-card">
+        <div class="form-group">
+          <label for="category-select" class="form-label">Catégorie</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select" id="category-select">
+              <div class="custom-select-trigger">
+                <span class="custom-select-value">-- Sélectionner une catégorie --</span>
+                <span class="select-arrow">▼</span>
+              </div>
+              <div class="custom-select-options">
+                <div class="custom-select-option" data-value="general">Général</div>
+                <div class="custom-select-option" data-value="horaires">Horaires</div>
+                <div class="custom-select-option" data-value="services">Services</div>
+                <div class="custom-select-option" data-value="contact">Contact</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="content-textarea" class="form-label">Contenu</label>
+          <textarea id="content-textarea" class="form-textarea" placeholder="Collez ou tapez votre contenu ici..."
+            rows="8">Exemple:
+Horaires d'ouverture:
+Lundi-Vendredi: 9h-18h
+Samedi: 10h-14h</textarea>
+        </div>
+
+        <p class="form-instruction">Minimum 20 caractères. Le contenu sera automatiquement analysé et rendu disponible
+          au chatbot.</p>
+
+        <button class="add-button">
+          <span class="add-icon">+</span>
+          Ajouter à la Base de Connaissances
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Floating Chat Button -->
+  <div id="chat-button" class="chat-button" onclick="toggleChat()">
+    💬
+  </div>
+
+  <!-- Chatbot Window -->
+  <div id="chat-wrapper" class="chat-wrapper">
+    <div class="chat-header">
+      <span class="chat-logo"
+        style="display:inline-block;vertical-align:middle;margin-right:9px;font-size:25px;">🔍</span>
+      <span class="chat-title">Rafiq - secrétaire Virtuel</span>
+      <span id="close-btn" onclick="closeChat()" aria-label="Fermer" role="button">
+        <svg width="28" height="30" viewBox="0 0 20 20" fill="none">
+          <path d="M6 6l8 8m0-8l-8 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+      </span>
+    </div>
+
+    <div id="messages" class="messages"></div>
+
+    <div class="input-bar">
+    
+
+      <input id="message-input" type="text" placeholder="Posez votre question sur NIRD..." />
+      <button id="send-btn">➤</button>
+    </div>
+  </div>
+
+  <script src="chatbot.js"></script>
+  <script>
+    function toggleChat() {
+      const chatWindow = document.getElementById('chat-wrapper');
+      const chatButton = document.getElementById('chat-button');
+
+      if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
+        chatWindow.style.display = 'flex';
+        chatButton.style.display = 'none';
+      } else {
+        chatWindow.style.display = 'none';
+        chatButton.style.display = 'flex';
+      }
+    }
+
+    function closeChat() {
+      document.getElementById('chat-wrapper').style.display = 'none';
+      document.getElementById('chat-button').style.display = 'flex';
+    }
+
+    // Auto-open chatbot when page loads
+    window.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        document.getElementById('chat-wrapper').style.display = 'flex';
+        document.getElementById('chat-button').style.display = 'none';
+      }, 500);
+
+      // Custom dropdown functionality
+      const customSelect = document.querySelector('.custom-select');
+      const selectTrigger = customSelect.querySelector('.custom-select-trigger');
+      const selectOptions = customSelect.querySelector('.custom-select-options');
+      const selectValue = customSelect.querySelector('.custom-select-value');
+      const options = customSelect.querySelectorAll('.custom-select-option');
+
+      selectTrigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        customSelect.classList.toggle('is-open');
+      });
+
+      options.forEach(option => {
+        option.addEventListener('click', function () {
+          selectValue.textContent = this.textContent;
+          customSelect.classList.remove('is-open');
+          customSelect.setAttribute('data-selected', this.getAttribute('data-value'));
+
+          // Update selected state
+          options.forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!customSelect.contains(e.target)) {
+          customSelect.classList.remove('is-open');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
